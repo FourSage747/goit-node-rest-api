@@ -78,9 +78,9 @@ const updateContact = async (req, res, next) => {
             throw HttpError(400, error.message)
         }
         const {id} = req.params
-        // if (Object.keys(req.body).length === 0) {
-        //     throw HttpError(400, "Body must have at least one field")
-        // }
+        if (Object.keys(req.body).length === 0) {
+            throw HttpError(400, "Body must have at least one field")
+        }
         const currentContact = await getContactById(id)
         const updatedContact = {
             ...currentContact,
