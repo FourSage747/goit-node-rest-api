@@ -2,9 +2,12 @@ const express = require("express")
 // const morgan = require("morgan")
 const cors = require("cors")
 const mongoose = require("mongoose")
+const dotenv = require("dotenv")
 
-const DB_HOST = 'mongodb+srv://FourSage:rutor26762676@cluster0.afo4ruu.mongodb.net/db-contacts?retryWrites=true&w=majority'
+dotenv.config()
 
+// const DB_HOST = 'mongodb+srv://FourSage:rutor26762676@cluster0.afo4ruu.mongodb.net/db-contacts?retryWrites=true&w=majority'
+const {DB_HOST} = process.env
 const app = express();
 
 

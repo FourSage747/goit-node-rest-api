@@ -7,17 +7,18 @@ const createContactSchema = Joi.object({
     favorite: Joi.boolean()
 })
 
-// const updateContactSchema = Joi.object({
-//     name: Joi.string().optional(),
-//     email: Joi.string().email().optional(),
-//     phone: Joi.string().optional(),
-// });
 const updateContactSchema = Joi.object({
     name: Joi.string().optional(),
     email: Joi.string().email().optional(),
     phone: Joi.string().optional(),
     favorite: Joi.boolean().optional()
-}).or('name', 'email', 'phone');
+});
+// const updateContactSchema = Joi.object({
+//     name: Joi.string().optional(),
+//     email: Joi.string().email().optional(),
+//     phone: Joi.string().optional(),
+//     favorite: Joi.boolean().optional()
+// }).or('name', 'email', 'phone');
 
 const updateFavoriteSchema = Joi.object({
     favorite: Joi.boolean().required()
