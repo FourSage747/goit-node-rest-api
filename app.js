@@ -6,18 +6,18 @@ const dotenv = require("dotenv")
 
 dotenv.config()
 
-// const DB_HOST = 'mongodb+srv://FourSage:rutor26762676@cluster0.afo4ruu.mongodb.net/db-contacts?retryWrites=true&w=majority'
 const {DB_HOST} = process.env
 const app = express();
 
 
 const contactsRouter = require("./routes/contactsRouter.js")
-
+const authRouter = require("./routes/auth.js")
 
 // app.use(morgan("tiny"));
 app.use(cors());
 app.use(express.json());
 
+app.use("/api/users", authRouter)
 app.use("/api/contacts", contactsRouter);
 
 app.use((_, res) => {
