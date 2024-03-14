@@ -23,7 +23,12 @@ const register = async(req, res, next) => {
         }
         const hashPassword = await bcrypt.hash(password, 10)
         const newUser = await User.create({...req.body, password: hashPassword})
-        res.status(201).json(newUser)
+        res.status(201).json({
+            user: {
+                email: newUser.email,
+                subscription: newUser.subscription,
+            }
+        })
     }
     catch(error) {
         next(error)
@@ -39,11 +44,11 @@ const login = async(req, res, next) => {
         }
         const user = await User.findOne({email})
         if(!user){
-            throw HttpError(401, "Email invalid")
+            throw HttpError(401, "Email or password is wrong")
         }
         const comparePassword = await bcrypt.compare(password, user.password)
         if(!comparePassword){
-            throw HttpError(401, "Password invalid")
+            throw HttpError(401, "Email or password is wrong")
         }
         
         const payload = {
@@ -53,7 +58,13 @@ const login = async(req, res, next) => {
         await User.findByIdAndUpdate(user._id, {token})
         // const {id} = jwt.decode(token)
         // console.log(id)
-        res.json({token})
+        res.json({
+            token,
+            user: {
+                email: user.email,
+                subscription: user.subscription,
+            }
+        })
     }
     catch(error) {
         next(error)
@@ -62,10 +73,10 @@ const login = async(req, res, next) => {
 
 const getCurrent = async(req, res, next) => {
     try {
-        const {email, name} = req.user
+        const {email, subscription} = req.user
         res.json({
-            name,
-            email
+            email,
+            subscription
         })
     }
     catch(error) {
@@ -77,9 +88,7 @@ const logout = async(req, res, next) => {
     try {
         const {_id} = req.user
         await User.findByIdAndUpdate(_id, {token: ""})
-        res.json({
-            message: "Logout success"
-        })
+        res.status(204).json()
     }
     catch(error) {
         next(error)
