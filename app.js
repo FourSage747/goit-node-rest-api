@@ -16,6 +16,7 @@ const authRouter = require("./routes/auth.js")
 // app.use(morgan("tiny"));
 app.use(cors());
 app.use(express.json());
+app.use(express.static("public"))
 
 app.use("/users", authRouter)
 app.use("/api/contacts", contactsRouter);
@@ -29,9 +30,7 @@ app.use((err, req, res, next) => {
   res.status(status).json({ message });
 });
 
-// app.listen(3000, () => {
-//   console.log("Server is running. Use our API on port: 3000");
-// });
+
 mongoose.set('strictQuery', true)
 mongoose.connect(DB_HOST)
   .then(()=>{
